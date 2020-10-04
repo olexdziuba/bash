@@ -12,13 +12,13 @@ function memory_check() {
     echo ""
 	echo "Memory usage on ${server_name} is: "
 	free -h
-	echo ""
+    echo ""
         echo "Disk space on ${server_name} is:"
         df -h
-	echo ""
+    echo ""
         echo "Disk size with disk partitioning information:"
 	fdisk -l
-	echo ""
+    echo ""
 	
 }
 
