@@ -28,6 +28,9 @@ function cpu_check() {
     echo ""
 	uptime
     echo ""
+      
+
+        
 }
 
 function tcp_check() {
@@ -36,13 +39,16 @@ function tcp_check() {
     echo ""
 	cat  /proc/net/tcp | wc -l
     echo ""
+        echo "IP on ${server_name} is: "
+        ip a
+    echo ""
 }
 
 function kernel_check() {
     echo ""
 	echo "Kernel version on ${server_name} is: "
 	echo ""
-	uname -r
+	uname -a
     echo ""
 }
 
