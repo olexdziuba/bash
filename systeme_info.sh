@@ -70,7 +70,7 @@ menu(){
 echo -ne "
 My First Menu
 $(ColorGreen '1)') Memory usage
-$(ColorGreen '2)') CPU load
+$(ColorGreen '2)') CPU load/uptime
 $(ColorGreen '3)') Number of TCP connections 
 $(ColorGreen '4)') Kernel version
 $(ColorGreen '5)') Check All
