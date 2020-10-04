@@ -16,7 +16,10 @@ function memory_check() {
         echo "Disk space on ${server_name} is:"
         df -h
 	echo ""
-
+        echo "Disk size with disk partitioning information:"
+	fdisk -l
+	echo ""
+	
 }
 
 function cpu_check() {
