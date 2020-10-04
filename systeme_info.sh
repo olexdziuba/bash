@@ -1,7 +1,7 @@
 #!/bin/bash
  
 #   Check:
-#   - Memory usage
+#   - Memory usage. disk space and disk partitioning information
 #   - CPU load
 #   - Number of TCP connections 
 #   - Kernel version
