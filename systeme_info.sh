@@ -13,6 +13,10 @@ function memory_check() {
 	echo "Memory usage on ${server_name} is: "
 	free -h
 	echo ""
+        echo "Disk space on ${server_name} is:"
+        df -h
+	echo ""
+
 }
 
 function cpu_check() {
