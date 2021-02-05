@@ -15,3 +15,8 @@ chmod u=rwx,go= your_script.sh
 
 OR
 chmod u+x your_script.sh
+
+
+Remove read and execute permission for the group and user, enter:
+
+chmod ug= script.sh
