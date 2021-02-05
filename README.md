@@ -1,4 +1,5 @@
 Command to make the script run:
+
 chmod +x your_script.sh
 
 OR
