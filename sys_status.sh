@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+echo ""
+echo "************************************************************"
+echo "System Report for $(cat /etc/hostname) ($(hostname -I | awk '{print $1}'))"
+echo "Generated at $(date)"
+echo "************************************************************"
+echo "Uptime:         $(uptime -p)"
+echo "Kernel Version: $(uname -r)"
+echo "Load info:      $(cat /proc/loadavg)"
+echo "Disk status:    $(df -h / | awk 'FNR == 2 {print $5 " used (" $4 " free)"}')"
+echo "Memory status:  $(free -h | awk 'FNR == 2 {print $3 " used (" $4 " free)"}')"
+echo ""
