@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 echo ""
 echo "************************************************************"
 echo "System Report for $(cat /etc/hostname) ($(hostname -I | awk '{print $1}'))"
