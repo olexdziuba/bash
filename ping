@@ -1,0 +1,9 @@
+#!/bin/bash
+ping -c20 -i20 10.10.10.1
+## -c  the number of packets to send to the server/host
+## -i ping wait 
+if [ $? -eq 0 ]
+then /root/scripts/test.sh
+exit 0
+else echo “fail”
+fi
