@@ -73,3 +73,4 @@ while true; do
             ;;
     esac
 done
+# add file "add_dns.txt" and "del_dns.txt"
