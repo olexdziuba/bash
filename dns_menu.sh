@@ -5,11 +5,24 @@ add_dns_record() {
     ip=$1
     domain=$2
 
+    # Check if IP address and domain already exist in DNS records
+    if grep -q "^address=/$domain/$ip$" /etc/dnsmasq.conf; then
+        echo "DNS record already exists for IP: $ip, Domain: $domain"
+        return 1
+    fi
+
+    # Check for duplicate DNS records
+    if grep -q "^address=/$domain/" /etc/dnsmasq.conf; then
+        echo "Duplicate DNS record found for Domain: $domain"
+        return 1
+    fi
+
     # Add record to DNSmasq configuration file
     echo "address=/$domain/$ip" >> /etc/dnsmasq.conf
 
     # Restart DNSmasq service
     systemctl restart dnsmasq
+    echo "DNS record added successfully for IP: $ip, Domain: $domain"
 }
 
 # Function to delete DNS record
@@ -17,11 +30,18 @@ delete_dns_record() {
     ip=$1
     domain=$2
 
+    # Check if IP address and domain exist in DNS records
+    if ! grep -q "^address=/$domain/$ip$" /etc/dnsmasq.conf; then
+        echo "DNS record does not exist for IP: $ip, Domain: $domain"
+        return 1
+    fi
+
     # Remove record from DNSmasq configuration file
     sed -i "/address=\/$domain\/$ip/d" /etc/dnsmasq.conf
 
     # Restart DNSmasq service
     systemctl restart dnsmasq
+    echo "DNS record deleted successfully for IP: $ip, Domain: $domain"
 }
 
 # Function to print DNS records
@@ -73,4 +93,5 @@ while true; do
             ;;
     esac
 done
+
 # add file "add_dns.txt" and "del_dns.txt"
