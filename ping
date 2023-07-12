@@ -1,9 +1,19 @@
 #!/bin/bash
-ping -c20 -i20 10.10.10.1
-## -c  the number of packets to send to the server/host
-## -i ping wait 
-if [ $? -eq 0 ]
-then /root/scripts/test.sh
-exit 0
-else echo “fail”
-fi
+
+# Prompt for network address and subnet mask
+read -p "Enter the network address (e.g., 192.168.1.0): " network_address
+read -p "Enter the subnet mask (e.g., 24): " subnet_mask
+
+# Calculate the network address
+network=$(ipcalc "$network_address/$subnet_mask" | grep "Network:" | awk '{print $2}')
+
+# Perform ping for all addresses in the network
+echo "Pinging IP addresses in the network $network ..."
+IFS='.' read -r -a network_parts <<< "$network"
+for ((i=1; i<=254; i++))
+do
+    ip_address="${network_parts[0]}.${network_parts[1]}.${network_parts[2]}.$i"
+    if ping -c 1 -W 1 "$ip_address" >/dev/null 2>&1; then
+        echo "Ping successful - $ip_address"
+    fi
+done
