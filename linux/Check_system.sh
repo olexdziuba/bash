@@ -3,7 +3,7 @@
 echo "memory:"
 free -h
 echo "Disk usage:"
-d -h
+df -h
 echo "Uptime:"
 uptime
 
