@@ -1,4 +1,4 @@
-## Command to make the script run:
+## Command to make the script run (change permissions):
 
 chmod +x your_script.sh
 
