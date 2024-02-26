@@ -58,7 +58,7 @@ chmod +x container_mgm.sh
 
 ## Автор
 
-Oleksandr Diuba
+Oleksandr Dziuba
 
 
 
