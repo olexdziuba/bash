@@ -25,7 +25,7 @@ while true; do
     echo "3. Stop container"
     echo "4. Backup container"
     echo "5. Snapshot container"
-    echo "6. Make a snapshot of all containers"
+    echo "6. Backup containers (stop mode)"
     echo "0. Exit"
     read -p "Select an option: " choice
 
@@ -71,12 +71,16 @@ while true; do
             done < "$FILE"
             ;;
         6)
-            echo "You have chosen to make a snapshot of all containers."
-            SNAPSHOT_DIR="$CONTAINER_PATH/snapshots"
-            mkdir -p "$SNAPSHOT_DIR"
+            echo "You have chosen to backup containers (stop mode)."
+            BACKUP_DIR="./backups/$DATE"
+            mkdir -p "$BACKUP_DIR"
             while IFS=';' read -r CTID IP ETUD PASSWORD LASTNAME FIRSTNAME; do
-                echo "--Snapshot of container $CTID-----------"
-                vzdump $CTID --mode snapshot --dumpdir $SNAPSHOT_DIR
+                echo "--Stopping container $CTID for backup--"
+                pct stop $CTID && \
+                echo "--Backing up container $CTID--" && \
+                vzdump $CTID --mode stop --storage local --remove 0 --compress gzip --dumpdir "$BACKUP_DIR" && \
+                echo "--Starting container $CTID after backup--" && \
+                pct start $CTID
                 echo
             done < "$FILE"
             ;;
