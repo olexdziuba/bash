@@ -4,7 +4,7 @@
 # Global variables
 TPLID=111               # Container template ID
 HOSTNAMEPREFIX=410-     # Prefix for container names
-IPPREFIX=10.10.0        # IP address prefix
+IPPREFIX=10.10.2        # IP address prefix
 DATE=$(date +%F-%H:%M)  # Date for naming the backup directory
 
 # Request to enter the name of the file with the list of students
@@ -23,9 +23,10 @@ while true; do
     echo "1. Create container"
     echo "2. Start container"
     echo "3. Stop container"
-    echo "4. Backup container"
+    echo "4. Backup fichier App.js"
     echo "5. Snapshot container"
     echo "6. Backup containers (stop mode)"
+    echo "7. Backup containers (suspend mode)"
     echo "0. Exit"
     read -p "Select an option: " choice
 
@@ -54,7 +55,7 @@ while true; do
             done < "$FILE"
             ;;
         4)
-            echo "You have chosen to backup a container."
+            echo "You have chosen to backup un fichier App.js."
             while IFS=';' read -r CTID IP ETUD PASSWORD LASTNAME FIRSTNAME; do
                 BACKUP_DIR="./$DATE"
                 mkdir -p "$BACKUP_DIR"
@@ -72,17 +73,48 @@ while true; do
             ;;
         6)
             echo "You have chosen to backup containers (stop mode)."
-            BACKUP_DIR="./backups/$DATE"
-            mkdir -p "$BACKUP_DIR"
-            while IFS=';' read -r CTID IP ETUD PASSWORD LASTNAME FIRSTNAME; do
-                echo "--Stopping container $CTID for backup--"
-                pct stop $CTID && \
-                echo "--Backing up container $CTID--" && \
-                vzdump $CTID --mode stop --storage local --remove 0 --compress gzip --dumpdir "$BACKUP_DIR" && \
-                echo "--Starting container $CTID after backup--" && \
-                pct start $CTID
-                echo
-            done < "$FILE"
+            echo "Is your backup directory /mnt/data/dump? (Y/N)"
+            read answer  # Lire la réponse de l'utilisateur.
+            if [[ $answer == [Yy]* ]]; then
+                BACKUP_DIR="/mnt/data/dump"
+                # Continuer avec le processus de sauvegarde comme avant.
+                while IFS=';' read -r CTID IP ETUD PASSWORD LASTNAME FIRSTNAME; do
+                     echo "--Stopping container $CTID for backup--"
+                     pct stop $CTID && \
+                     echo "--Backing up container $CTID--" && \
+                     vzdump $CTID --mode stop --remove 0 --compress gzip --dumpdir "$BACKUP_DIR" && \
+                     echo "--Starting container $CTID after backup--" && \
+                     pct start $CTID
+                     echo
+                done < "$FILE"
+            else
+              echo "Please change the backup directory and try again."
+                # Ici, vous pouvez soit demander à l'utilisateur de saisir un nouveau répertoire,
+               # soit simplement retourner au menu principal.
+                # Retour au menu principal.
+            fi
+            ;;
+        7)
+            echo "You have chosen to backup containers (suspend mode)."
+            echo "Is your backup directory /mnt/data/dump? (Y/N)"
+            read answer  # Lire la réponse de l'utilisateur.
+            if [[ $answer == [Yy]* ]]; then
+              BACKUP_DIR="/mnt/data/dump"
+              # Continuer avec le processus de sauvegarde comme avant.
+              while IFS=';' read -r CTID IP ETUD PASSWORD LASTNAME FIRSTNAME; do
+                 echo "--Suspending container $CTID for backup--"
+                 # Remplacer --mode stop par --mode suspend pour minimiser l'interruption
+                 vzdump $CTID --mode suspend --remove 0 --compress gzip --dumpdir "$BACKUP_DIR" && \
+                 echo "Backup of container $CTID completed."
+                # Pas besoin de redémarrer le container, car le mode suspend le reprend automatiquement
+                 echo
+               done < "$FILE"
+            else
+              echo "Please change the backup directory and try again."
+                # Ici, vous pouvez soit demander à l'utilisateur de saisir un nouveau répertoire,
+               # soit simplement retourner au menu principal.
+                # Retour au menu principal.
+            fi
             ;;
         0)
             echo "You have chosen to exit the menu. Goodbye!"
@@ -95,4 +127,5 @@ while true; do
 
     read -p "Press Enter to continue..."
 done
+
 

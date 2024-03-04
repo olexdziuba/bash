@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../../Python"
+		},
+		{
+			"name": "proxmox-1",
+			"path": "../GitLab/proxmox-1"
+		}
+	],
+	"settings": {}
+}
