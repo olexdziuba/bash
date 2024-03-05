@@ -82,7 +82,8 @@ while true; do
                      echo "--Stopping container $CTID for backup--"
                      pct stop $CTID && \
                      echo "--Backing up container $CTID--" && \
-                     vzdump $CTID --mode stop --remove 0 --compress gzip --dumpdir "$BACKUP_DIR" && \
+                     vzdump $CTID --mode stop --remove 0 --compress lzo --dumpdir "$BACKUP_DIR" && \
+                     #-- compress gzip (more compres) lzo (fast compress)
                      echo "--Starting container $CTID after backup--" && \
                      pct start $CTID
                      echo
@@ -104,7 +105,8 @@ while true; do
               while IFS=';' read -r CTID IP ETUD PASSWORD LASTNAME FIRSTNAME; do
                  echo "--Suspending container $CTID for backup--"
                  # Remplacer --mode stop par --mode suspend pour minimiser l'interruption
-                 vzdump $CTID --mode suspend --remove 0 --compress gzip --dumpdir "$BACKUP_DIR" && \
+                 vzdump $CTID --mode suspend --remove 0 --compress lzo --dumpdir "$BACKUP_DIR" && \ 
+                 #-- compress gzip (more compress) lzo (fast compress) 
                  echo "Backup of container $CTID completed."
                 # Pas besoin de redémarrer le container, car le mode suspend le reprend automatiquement
                  echo
@@ -127,5 +129,4 @@ while true; do
 
     read -p "Press Enter to continue..."
 done
-
 
