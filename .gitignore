@@ -1,1 +1,26 @@
+# Ignore all CSV files
+*.csv
+
+# Ignore compiled files
+*.o
+*.so
+
+# Ignore backup files from editors
+*~
+*.bak
+*.swp
+*.tmp
+
+# Ignore specific directories that may contain builds or temporary files
+build/
+temp/
+
+# Ignore all log files
+*.log
+
+# Ignore macOS specific files
+.DS_Store
+
+# Ignore user-specific bash scripts that should not be shared
+custom_*.sh
  
