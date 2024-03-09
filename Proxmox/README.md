@@ -37,12 +37,12 @@ CTID;IP;ETUD;PASSWORD;LASTNAME;FIRSTNAME
 1. Download and save the script in your Proxmox VE system.
 2. Make the script executable with the command:
 
-chmod +x container_mgm.sh
+chmod +x container_mgm_liste.sh
 
 
 3. Run the script:
 
-./cont_mgm.sh
+./container_mgm_liste.sh
 
 
 4. Follow the on-screen instructions to perform operations with the containers.
@@ -61,4 +61,3 @@ chmod +x container_mgm.sh
 ## Author
 
 Oleksandr Dziuba
-
